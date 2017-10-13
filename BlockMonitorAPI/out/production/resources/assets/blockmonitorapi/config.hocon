@@ -1,0 +1,12 @@
+config {
+    database {
+        # currently only mysql and h2 is supported this should be expanded in the future
+        type = "h2"
+        # Only valid if database is NOT file based otherwise will be ignored
+        ip = ""
+        # Only valid if the database is NOT file based otherwise will be ignored
+        username = ""
+        # Only valid if the database is NOT file based otherwise will be ignored
+        password = ""
+    }
+}

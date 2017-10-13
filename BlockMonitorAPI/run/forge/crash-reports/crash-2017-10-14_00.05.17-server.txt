@@ -1,0 +1,72 @@
+---- Minecraft Crash Report ----
+
+WARNING: coremods are present:
+  SpongeCoremod (sponge.jar)
+Contact their authors BEFORE contacting forge
+
+// You're mean.
+
+Time: 14/10/17 00:05
+Description: Exception in server tick loop
+
+net.minecraftforge.fml.common.LoaderExceptionModCrash: Caught exception from BlockMonitorAPI (assets/assets.blockmonitorapi)
+Caused by: org.spongepowered.mod.plugin.InvalidPluginException
+	at org.spongepowered.mod.plugin.SpongeModPluginContainer.constructMod(SpongeModPluginContainer.java:272)
+	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62)
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+	at java.lang.reflect.Method.invoke(Method.java:498)
+	at com.google.common.eventbus.EventSubscriber.handleEvent(EventSubscriber.java:74)
+	at com.google.common.eventbus.SynchronizedEventSubscriber.handleEvent(SynchronizedEventSubscriber.java:47)
+	at com.google.common.eventbus.EventBus.dispatch(EventBus.java:322)
+	at com.google.common.eventbus.EventBus.dispatchQueuedEvents(EventBus.java:304)
+	at com.google.common.eventbus.EventBus.post(EventBus.java:275)
+	at net.minecraftforge.fml.common.LoadController.sendEventToModContainer(LoadController.java:246)
+	at net.minecraftforge.fml.common.LoadController.propogateStateMessage(LoadController.java:224)
+	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62)
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+	at java.lang.reflect.Method.invoke(Method.java:498)
+	at com.google.common.eventbus.EventSubscriber.handleEvent(EventSubscriber.java:74)
+	at com.google.common.eventbus.SynchronizedEventSubscriber.handleEvent(SynchronizedEventSubscriber.java:47)
+	at com.google.common.eventbus.EventBus.dispatch(EventBus.java:322)
+	at com.google.common.eventbus.EventBus.dispatchQueuedEvents(EventBus.java:304)
+	at com.google.common.eventbus.EventBus.post(EventBus.java:275)
+	at net.minecraftforge.fml.common.LoadController.redirect$onPost$zzd000(LoadController.java:558)
+	at net.minecraftforge.fml.common.LoadController.distributeStateMessage(LoadController.java:147)
+	at net.minecraftforge.fml.common.Loader.loadMods(Loader.java:582)
+	at net.minecraftforge.fml.server.FMLServerHandler.beginServerLoading(FMLServerHandler.java:99)
+	at net.minecraftforge.fml.common.FMLCommonHandler.onServerStart(FMLCommonHandler.java:328)
+	at net.minecraft.server.dedicated.DedicatedServer.func_71197_b(DedicatedServer.java:121)
+	at net.minecraft.server.MinecraftServer.run(MinecraftServer.java:442)
+	at java.lang.Thread.run(Thread.java:748)
+
+
+A detailed walkthrough of the error, its code path and all known details is as follows:
+---------------------------------------------------------------------------------------
+
+-- System Details --
+Details:
+	Minecraft Version: 1.11.2
+	Operating System: Windows 10 (x86) version 10.0
+	Java Version: 1.8.0_131, Oracle Corporation
+	Java VM Version: Java HotSpot(TM) Client VM (mixed mode), Oracle Corporation
+	Memory: 9809160 bytes (9 MB) / 259522560 bytes (247 MB) up to 259522560 bytes (247 MB)
+	JVM Flags: 0 total; 
+	IntCache: cache: 0, tcache: 0, allocated: 0, tallocated: 0
+	FML: MCP 9.38 Powered by Forge 13.20.0.2282 8 mods loaded, 8 mods active
+	States: 'U' = Unloaded 'L' = Loaded 'C' = Constructed 'H' = Pre-initialized 'I' = Initialized 'J' = Post-initialized 'A' = Available 'D' = Disabled 'E' = Errored
+	UC	minecraft{1.11.2} [Minecraft] (minecraft.jar) 
+	UC	mcp{9.19} [Minecraft Coder Pack] (minecraft.jar) 
+	UC	FML{8.0.99.99} [Forge Mod Loader] (server.jar) 
+	UC	forge{13.20.0.2282} [Minecraft Forge] (server.jar) 
+	UC	spongeapi{7.0.0-SNAPSHOT-09326aa} [SpongeAPI] (sponge.jar) 
+	UC	sponge{1.11.2-2282-7.0.0-BETA-2376} [SpongeForge] (sponge.jar) 
+	UE	assets/assets.blockmonitorapi{} [BlockMonitorAPI] (classes)
+	UC	mercurius_updater{1.0} [mercurius_updater] (MercuriusUpdater-1.11.2.jar) 
+	Loaded coremods (and transformers): 
+SpongeCoremod (sponge.jar)
+  org.spongepowered.common.launch.transformer.SpongeSuperclassTransformer
+	Profiler Position: N/A (disabled)
+	Is Modded: Definitely; Server brand changed to 'fml,forge,sponge'
+	Type: Dedicated Server (map_server.txt)

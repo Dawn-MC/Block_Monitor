@@ -1,0 +1,78 @@
+---- Minecraft Crash Report ----
+
+WARNING: coremods are present:
+  SpongeCoremod (sponge.jar)
+Contact their authors BEFORE contacting forge
+
+// Surprise! Haha. Well, this is awkward.
+
+Time: 14/10/17 00:26
+Description: Exception generating new chunk
+
+java.lang.OutOfMemoryError: Java heap space
+	at net.minecraft.world.chunk.ChunkPrimer.<init>(SourceFile:13)
+	at org.spongepowered.common.util.gen.ChunkBufferPrimer.<init>(ChunkBufferPrimer.java:47)
+	at net.minecraft.world.gen.MapGenBase.populate(SourceFile:548)
+	at org.spongepowered.common.world.gen.SpongeChunkGenerator.func_185932_a(SpongeChunkGenerator.java:255)
+	at net.minecraft.world.gen.ChunkProviderServer.func_186025_d(ChunkProviderServer.java:144)
+	at net.minecraft.server.MinecraftServer.prepareSpawnArea(MinecraftServer.java:3558)
+	at org.spongepowered.common.world.WorldManager.createWorldFromProperties(WorldManager.java:806)
+	at org.spongepowered.common.world.WorldManager.loadAllWorlds(WorldManager.java:752)
+	at net.minecraft.server.MinecraftServer.func_71247_a(MinecraftServer.java:3506)
+	at net.minecraft.server.dedicated.DedicatedServer.func_71197_b(DedicatedServer.java:267)
+	at net.minecraft.server.MinecraftServer.run(MinecraftServer.java:442)
+	at java.lang.Thread.run(Thread.java:748)
+
+
+A detailed walkthrough of the error, its code path and all known details is as follows:
+---------------------------------------------------------------------------------------
+
+-- Head --
+Thread: Server thread
+Stacktrace:
+	at net.minecraft.world.chunk.ChunkPrimer.<init>(SourceFile:13)
+	at org.spongepowered.common.util.gen.ChunkBufferPrimer.<init>(ChunkBufferPrimer.java:47)
+	at net.minecraft.world.gen.MapGenBase.populate(SourceFile:548)
+	at org.spongepowered.common.world.gen.SpongeChunkGenerator.func_185932_a(SpongeChunkGenerator.java:255)
+
+-- Chunk to be generated --
+Details:
+	Location: 2,10
+	Position hash: 42949672962
+	Generator: SpongeChunkGeneratorForge{World=WorldServer{LevelName=world, DimensionId=0, DimensionType=minecraft:overworld}}
+Stacktrace:
+	at net.minecraft.world.gen.ChunkProviderServer.func_186025_d(ChunkProviderServer.java:144)
+	at net.minecraft.server.MinecraftServer.prepareSpawnArea(MinecraftServer.java:3558)
+	at org.spongepowered.common.world.WorldManager.createWorldFromProperties(WorldManager.java:806)
+	at org.spongepowered.common.world.WorldManager.loadAllWorlds(WorldManager.java:752)
+	at net.minecraft.server.MinecraftServer.func_71247_a(MinecraftServer.java:3506)
+	at net.minecraft.server.dedicated.DedicatedServer.func_71197_b(DedicatedServer.java:267)
+	at net.minecraft.server.MinecraftServer.run(MinecraftServer.java:442)
+	at java.lang.Thread.run(Thread.java:748)
+
+-- System Details --
+Details:
+	Minecraft Version: 1.11.2
+	Operating System: Windows 10 (x86) version 10.0
+	Java Version: 1.8.0_131, Oracle Corporation
+	Java VM Version: Java HotSpot(TM) Client VM (mixed mode, sharing), Oracle Corporation
+	Memory: 36752 bytes (0 MB) / 259522560 bytes (247 MB) up to 259522560 bytes (247 MB)
+	JVM Flags: 0 total; 
+	IntCache: cache: 1, tcache: 1, allocated: 12, tallocated: 94
+	FML: MCP 9.38 Powered by Forge 13.20.0.2282 8 mods loaded, 8 mods active
+	States: 'U' = Unloaded 'L' = Loaded 'C' = Constructed 'H' = Pre-initialized 'I' = Initialized 'J' = Post-initialized 'A' = Available 'D' = Disabled 'E' = Errored
+	UCHIJAA	minecraft{1.11.2} [Minecraft] (minecraft.jar) 
+	UCHIJAA	mcp{9.19} [Minecraft Coder Pack] (minecraft.jar) 
+	UCHIJAA	FML{8.0.99.99} [Forge Mod Loader] (server.jar) 
+	UCHIJAA	forge{13.20.0.2282} [Minecraft Forge] (server.jar) 
+	UCHIJAA	spongeapi{7.0.0-SNAPSHOT-09326aa} [SpongeAPI] (sponge.jar) 
+	UCHIJAA	sponge{1.11.2-2282-7.0.0-BETA-2376} [SpongeForge] (sponge.jar) 
+	UCHIJAA	blockmonitorapi{} [BlockMonitorAPI] (classes) 
+	UCHIJAA	mercurius_updater{1.0} [mercurius_updater] (MercuriusUpdater-1.11.2.jar) 
+	Loaded coremods (and transformers): 
+SpongeCoremod (sponge.jar)
+  org.spongepowered.common.launch.transformer.SpongeSuperclassTransformer
+	Profiler Position: N/A (disabled)
+	Player Count: 0 / 20; []
+	Is Modded: Definitely; Server brand changed to 'fml,forge,sponge'
+	Type: Dedicated Server (map_server.txt)
