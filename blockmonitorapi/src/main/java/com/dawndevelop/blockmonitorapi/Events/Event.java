@@ -10,6 +10,8 @@ import java.sql.Timestamp;
 public interface Event {
     long id = BlockMonitorAPI.getSnowflake().next();
 
+    Timestamp timestamp = new Timestamp(System.currentTimeMillis());
+
     long getId();
 
     DataContainer toDataContainer();

@@ -4,7 +4,6 @@ import com.dawndevelop.blockmonitorapi.Storage.IStorageHandler;
 import com.dawndevelop.blockmonitorapi.Storage.StorageType;
 import com.google.inject.Inject;
 import com.relops.snowflake.Snowflake;
-import lombok.Getter;
 import ninja.leaping.configurate.commented.CommentedConfigurationNode;
 import ninja.leaping.configurate.hocon.HoconConfigurationLoader;
 import ninja.leaping.configurate.loader.ConfigurationLoader;
@@ -13,6 +12,7 @@ import org.spongepowered.api.Sponge;
 import org.spongepowered.api.config.ConfigDir;
 import org.spongepowered.api.config.DefaultConfig;
 import org.spongepowered.api.event.Listener;
+import org.spongepowered.api.event.filter.Getter;
 import org.spongepowered.api.event.game.state.GamePreInitializationEvent;
 import org.spongepowered.api.plugin.Plugin;
 
@@ -40,10 +40,10 @@ public class BlockMonitorAPI {
     @ConfigDir(sharedRoot = false)
     private Path privateConfigDir;
 
-    @Getter
+    @lombok.Getter
     private static IStorageHandler iStorageHandler;
 
-    @Getter
+    @lombok.Getter
     private static Snowflake snowflake;
 
     @Listener
