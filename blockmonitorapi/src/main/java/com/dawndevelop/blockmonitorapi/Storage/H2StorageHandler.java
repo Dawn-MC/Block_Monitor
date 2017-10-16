@@ -5,11 +5,14 @@ import com.zaxxer.hikari.HikariConfig;
 import com.zaxxer.hikari.HikariDataSource;
 import org.spongepowered.api.data.DataQuery;
 import org.spongepowered.api.data.persistence.DataFormats;
+import org.spongepowered.api.world.Location;
+import org.spongepowered.api.world.World;
 
 import java.io.IOException;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
+import java.util.Date;
 import java.util.Map;
 
 public class H2StorageHandler implements IStorageHandler {
@@ -72,6 +75,21 @@ public class H2StorageHandler implements IStorageHandler {
         } catch (SQLException e) {
             e.printStackTrace();
         }
+    }
+
+    @Override
+    public Event FindByLocation(Location<World> worldLocation, int xRadius, int yRadius, int zRadius) {
+        return null;
+    }
+
+    @Override
+    public Event FindByWorld(World world) {
+        return null;
+    }
+
+    @Override
+    public boolean Purge(Date date) {
+        return false;
     }
 
     @Override

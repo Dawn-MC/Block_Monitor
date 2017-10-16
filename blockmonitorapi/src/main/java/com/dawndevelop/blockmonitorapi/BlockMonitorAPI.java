@@ -4,6 +4,7 @@ import com.dawndevelop.blockmonitorapi.Storage.IStorageHandler;
 import com.dawndevelop.blockmonitorapi.Storage.StorageType;
 import com.google.inject.Inject;
 import com.relops.snowflake.Snowflake;
+import lombok.Getter;
 import ninja.leaping.configurate.commented.CommentedConfigurationNode;
 import ninja.leaping.configurate.hocon.HoconConfigurationLoader;
 import ninja.leaping.configurate.loader.ConfigurationLoader;
@@ -12,7 +13,6 @@ import org.spongepowered.api.Sponge;
 import org.spongepowered.api.config.ConfigDir;
 import org.spongepowered.api.config.DefaultConfig;
 import org.spongepowered.api.event.Listener;
-import org.spongepowered.api.event.filter.Getter;
 import org.spongepowered.api.event.game.state.GamePreInitializationEvent;
 import org.spongepowered.api.plugin.Plugin;
 
@@ -40,11 +40,11 @@ public class BlockMonitorAPI {
     @ConfigDir(sharedRoot = false)
     private Path privateConfigDir;
 
-    @lombok.Getter
+    @Getter
     private static IStorageHandler iStorageHandler;
 
-    @lombok.Getter
-    private static Snowflake snowflake;
+
+    public static Snowflake snowflake;
 
     @Listener
     public void PreInit(GamePreInitializationEvent event){
@@ -70,22 +70,27 @@ public class BlockMonitorAPI {
             StorageType storageType = StorageType.valueOf(commentedConfigurationNode.getNode("config", "database", "type").getString().toLowerCase());
             Optional<IStorageHandler> iStorageHandlerOptional = storageType.getIStorageHandler();
             if (iStorageHandlerOptional.isPresent()){
-                IStorageHandler iStorageHandler = iStorageHandlerOptional.get();
+                IStorageHandler StorageHandler = iStorageHandlerOptional.get();
 
-                if (iStorageHandler.isFileBased()){
+                if (StorageHandler.isFileBased()){
                     Map<String, Object> objectMap = new TreeMap<>();
                     objectMap.put("dirpath", privateConfigDir.toAbsolutePath());
 
-                    iStorageHandler.SetupStorageHandler(objectMap);
+                    StorageHandler.SetupStorageHandler(objectMap);
                 } else {
                     Map<String, Object> objectMap = new TreeMap<>();
                     objectMap.put("ip", commentedConfigurationNode.getNode("config", "database", "ip").getString());
                     objectMap.put("username", commentedConfigurationNode.getNode("config", "database", "username").getString());
                     objectMap.put("password", commentedConfigurationNode.getNode("config", "database", "password").getString());
-                    iStorageHandler.SetupStorageHandler(objectMap);
+                    StorageHandler.SetupStorageHandler(objectMap);
                 }
+                iStorageHandler = StorageHandler;
+                logger.info("Block monitor PreInited successfully, database connections have been handled loading will now continue!");
+
+            }else {
+                logger.error("Block monitor couldnt preinit! most likly a invalid database type!");
             }
-            logger.info("Block monitor PreInited successfully, database connections have been handled loading will now continue!");
+
         } catch (IOException e) {
             logger.error(e.getMessage());
             logger.error("Block monitor PreInited failed please make sure your details are correct in the config and if so report this!");
