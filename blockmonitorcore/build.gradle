@@ -1,3 +1,4 @@
+
 plugins {
     id "com.qixalite.spongestart" version "1.6.0"
     id 'com.github.johnrengelman.shadow' version '2.0.1'
@@ -27,7 +28,7 @@ repositories {
 }
 
 dependencies {
-    compile 'org.spongepowered:spongeapi:6.0.0'
+    compile 'org.spongepowered:spongeapi:7.0.0-20171224.182026-76'
     compileOnly 'org.projectlombok:lombok:1.16.18'
     compile project(':blockmonitorapi')
 }

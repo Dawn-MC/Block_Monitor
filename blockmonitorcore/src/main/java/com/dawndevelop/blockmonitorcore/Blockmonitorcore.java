@@ -1,6 +1,8 @@
 package com.dawndevelop.blockmonitorcore;
 
 import com.dawndevelop.blockmonitorcore.Events.EventHandler;
+import com.dawndevelop.blockmonitorcore.Events.EventTypes;
+import com.dawndevelop.blockmonitorcore.Events.Eventt;
 import com.google.inject.Inject;
 import org.slf4j.Logger;
 import org.spongepowered.api.data.DataContainer;
@@ -35,9 +37,32 @@ public class Blockmonitorcore {
     @Inject
     private Logger logger;
 
+    public Logger getLogger() {
+        return logger;
+    }
+
     @Listener
     public void onClientConnectionEvent(ClientConnectionEvent event){
         logger.info("Event called");
-        new EventHandler(event).Submit();
+
+        EventHandler eh = new EventHandler();
+        if (eh.HandleEvent(event)){
+            logger.info("Event handled");
+            eh.Submit();
+        }else{
+            logger.error("Event not handled");
+        }
+
+
+
+
+/*        if (event instanceof  ClientConnectionEvent.Join) {
+            ClientConnectionEvent.Join jEvent = (ClientConnectionEvent.Join) event;
+            DataContainer dataContainer = DataContainer.createNew();
+            dataContainer.set(DataQuery.of("player"), jEvent.getTargetEntity().toContainer());
+            dataContainer.set(DataQuery.of("message"), jEvent.getMessage().toPlain());
+            Eventt eventt = Eventt.builder().dataContainer(dataContainer).worldLocation(jEvent.getTargetEntity().getLocation()).eventType(EventTypes.ClientConnectionEvent.name()).build();
+        }*/
     }
 }
+

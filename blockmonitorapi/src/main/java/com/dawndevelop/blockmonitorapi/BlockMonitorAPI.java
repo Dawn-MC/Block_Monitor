@@ -16,9 +16,18 @@ import org.spongepowered.api.event.Listener;
 import org.spongepowered.api.event.game.state.GamePreInitializationEvent;
 import org.spongepowered.api.plugin.Plugin;
 
+import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.net.MalformedURLException;
+import java.net.URI;
+import java.net.URISyntaxException;
+import java.net.URL;
+import java.nio.channels.Channels;
+import java.nio.channels.ReadableByteChannel;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.Map;
 import java.util.Optional;
 import java.util.TreeMap;
@@ -30,7 +39,7 @@ import java.util.TreeMap;
 public class BlockMonitorAPI {
 
     @Inject
-    private Logger logger;
+    public Logger logger;
 
     @Inject
     @DefaultConfig(sharedRoot = true)
@@ -43,11 +52,36 @@ public class BlockMonitorAPI {
     @Getter
     private static IStorageHandler iStorageHandler;
 
-
     public static Snowflake snowflake;
 
+    private File dependenciesDir = new File(File.separatorChar + "mods" + File.separatorChar + "dependencies");
+
+    private File snowflakeDep = new File(dependenciesDir, "snowflake:1.1.jar");
+
     @Listener
-    public void PreInit(GamePreInitializationEvent event){
+    public void PreInit(GamePreInitializationEvent event) throws URISyntaxException {
+
+        if (!dependenciesDir.exists()){
+            if (!dependenciesDir.mkdir()){
+                System.err.println("Directory creation failed");
+            }
+        }
+
+        if (!snowflakeDep.exists()){
+
+            try {
+                snowflakeDep.createNewFile();
+                URL website = new URL("https://oss.sonatype.org/content/repositories/releases/com/relops/snowflake/1.1/snowflake-1.1.jar");
+                ReadableByteChannel rbc = Channels.newChannel(website.openStream());
+                FileOutputStream fos = new FileOutputStream(snowflakeDep);
+                fos.getChannel().transferFrom(rbc, 0, Long.MAX_VALUE);
+                fos.close();
+                rbc.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+
         if (Files.notExists(defaultConfig)){
             logger.info("Block monitors config could not be found creating new one");
             Sponge.getAssetManager().getAsset(this,"config.hocon").ifPresent(asset -> {
@@ -84,11 +118,11 @@ public class BlockMonitorAPI {
                     objectMap.put("password", commentedConfigurationNode.getNode("config", "database", "password").getString());
                     StorageHandler.SetupStorageHandler(objectMap);
                 }
+
                 iStorageHandler = StorageHandler;
                 logger.info("Block monitor PreInited successfully, database connections have been handled loading will now continue!");
-
             }else {
-                logger.error("Block monitor couldnt preinit! most likly a invalid database type!");
+                logger.error("Block monitor couldn't preinit! most likely a invalid database type!");
             }
 
         } catch (IOException e) {

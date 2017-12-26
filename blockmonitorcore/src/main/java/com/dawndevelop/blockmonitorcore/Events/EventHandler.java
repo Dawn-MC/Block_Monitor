@@ -1,6 +1,7 @@
 package com.dawndevelop.blockmonitorcore.Events;
 
 import com.dawndevelop.blockmonitorapi.BlockMonitorAPI;
+import com.dawndevelop.blockmonitorcore.Blockmonitorcore;
 import com.google.inject.Inject;
 import org.slf4j.Logger;
 import org.spongepowered.api.data.DataContainer;
@@ -9,24 +10,30 @@ import org.spongepowered.api.entity.ai.task.builtin.creature.horse.RunAroundLike
 import org.spongepowered.api.event.Event;
 import org.spongepowered.api.event.network.ClientConnectionEvent;
 
+import java.util.Objects;
+
 public class EventHandler {
 
-    @Inject
-    private Logger logger;
+    private Eventt eventt;
 
-    protected Eventt eventt;
-
-    public EventHandler(Event event){
-        if (event instanceof ClientConnectionEvent.Join){
-            ClientConnectionEvent.Join clientConnectionEventJoin = (ClientConnectionEvent.Join) event;
+    public boolean HandleEvent(Event event){
+        if (event instanceof  ClientConnectionEvent.Join) {
+            ClientConnectionEvent.Join jEvent = (ClientConnectionEvent.Join) event;
             DataContainer dataContainer = DataContainer.createNew();
-            dataContainer.set(DataQuery.of("player"), clientConnectionEventJoin.getTargetEntity().toContainer());
-            dataContainer.set(DataQuery.of("message"), clientConnectionEventJoin.getMessage().toPlain());
-            eventt = Eventt.builder().eventType(EventTypes.ClientConnectionEvent.name()).dataContainer(dataContainer).worldLocation(clientConnectionEventJoin.getTargetEntity().getLocation()).build();
+            dataContainer.set(DataQuery.of("player"), jEvent.getTargetEntity().toContainer());
+            dataContainer.set(DataQuery.of("message"), jEvent.getMessage().toPlain());
+            eventt = Eventt.builder().dataContainer(dataContainer).worldLocation(jEvent.getTargetEntity().getLocation()).eventType(EventTypes.ClientConnectionEvent.name()).build();
+            return true;
         }
+
+        return false;
     }
 
     public void Submit(){
-        BlockMonitorAPI.getIStorageHandler().Insert(eventt);
+        if (this.eventt == null){
+            throw new IllegalStateException("Critical error: eventt cannot be null at the submit stage");
+        }
+
+        BlockMonitorAPI.getIStorageHandler().Insert(this.eventt);
     }
 }

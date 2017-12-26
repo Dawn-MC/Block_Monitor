@@ -21,7 +21,8 @@ public class H2StorageHandler implements IStorageHandler {
     @Override
     public void SetupStorageHandler(Map<String, Object> params) {
         HikariConfig config = new HikariConfig();
-        config.setJdbcUrl("jdbc:h2://" + params.get("dirpath") + "/blockmonitor");
+        config.setJdbcUrl("jdbc:h2://" + params.get("dirpath"));
+
         config.setDriverClassName("org.h2.Driver");
         config.setMaximumPoolSize(100);
         dataSource = new HikariDataSource(config);
@@ -32,7 +33,11 @@ public class H2StorageHandler implements IStorageHandler {
                     "`id` BIGINT AUTO_INCREMENT NOT NULL," +
                     "`event_information` LONGTEXT," +
                     "`event_type` TEXT," +
-                    "`timestamp` TIMESTAMP" +
+                    "`timestamp` TIMESTAMP," +
+                            "`locX` INT," +
+                            "`locY` INT," +
+                            "`locZ` INT," +
+                            "`worldId` CHAR(40)" +
                     ");");
         } catch (SQLException e) {
             e.printStackTrace();
@@ -47,8 +52,19 @@ public class H2StorageHandler implements IStorageHandler {
     @Override
     public void Insert(Event event) {
         try (Connection con = dataSource.getConnection()) {
+            if (event == null){
+                System.err.println("event was null! returning.");
+                return;
+            }
+
+            if (event.getId() == 0){
+                System.err.println("getId was null! returning.");
+                return;
+            }
+
             PreparedStatement preparedStatement = con.prepareStatement(
-                    "INSERT INTO `block_monitor_events` (`id`, `event_information`, `event_type`, `timestamp`) VALUES (?, ?, ?, ?);");
+                    "INSERT INTO `block_monitor_events` (`id`, `event_information`, `event_type`, `timestamp`, `locX`, `locY`, `locZ`, `worldId`) VALUES (?, ?, ?, ?, ?, ?, ?, ?);");
+
 
             preparedStatement.setLong(1, event.getId());
             event.toDataContainer().getView(DataQuery.of()).ifPresent(dataView -> {
@@ -63,6 +79,13 @@ public class H2StorageHandler implements IStorageHandler {
 
             preparedStatement.setString(3, event.getEventType());
             preparedStatement.setTimestamp(4, event.getTimestamp());
+            preparedStatement.setInt(5, event.getLocation().getBlockX());
+            preparedStatement.setInt(6, event.getLocation().getBlockY());
+            preparedStatement.setInt(7, event.getLocation().getBlockZ());
+            preparedStatement.setString(8, event.getLocation().getExtent().getUniqueId().toString());
+
+            preparedStatement.execute();
+
         } catch (SQLException e) {
             e.printStackTrace();
         }

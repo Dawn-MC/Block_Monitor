@@ -12,7 +12,7 @@ configurations {
 }
 
 dependencies {
-    compile 'org.spongepowered:spongeapi:6.0.0'
+    compile 'org.spongepowered:spongeapi:7.0.0-20171224.182026-76'
     compileOnly 'org.projectlombok:lombok:1.16.18'
     compile 'com.zaxxer:HikariCP:2.6.2'
     compile 'com.relops:snowflake:1.1'
